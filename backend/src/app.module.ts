@@ -9,6 +9,7 @@ import { CustomersModule } from './customers/customers.module';
 import { DeliveriesModule } from './deliveries/deliveries.module';
 import { TransactionsModule } from './transactions/transactions.module';
 import { HealthController } from './health/health.controller';
+import { FeesController } from './config/http/fees.controller';
 import { ProductOrmEntity } from './products/infrastructure/persistence/product.orm-entity';
 import { CustomerOrmEntity } from './customers/infrastructure/persistence/customer.orm-entity';
 import { DeliveryOrmEntity } from './deliveries/infrastructure/persistence/delivery.orm-entity';
@@ -39,7 +40,7 @@ import { TransactionOrmEntity } from './transactions/infrastructure/persistence/
     DeliveriesModule,
     TransactionsModule,
   ],
-  controllers: [HealthController],
+  controllers: [HealthController, FeesController],
   providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
 })
 export class AppModule {}
