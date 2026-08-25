@@ -1,0 +1,68 @@
+{
+  "info": {
+    "name": "Checkout Service API",
+    "description": "Product checkout API: products/stock, customers, deliveries and transactions (Wompi payment flow).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000/api" },
+    { "key": "productId", "value": "" },
+    { "key": "transactionId", "value": "" },
+    { "key": "customerId", "value": "" },
+    { "key": "deliveryId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Health check",
+      "request": { "method": "GET", "url": "{{baseUrl}}/health" }
+    },
+    {
+      "name": "Get fees",
+      "request": { "method": "GET", "url": "{{baseUrl}}/config/fees" }
+    },
+    {
+      "name": "List products",
+      "request": { "method": "GET", "url": "{{baseUrl}}/products" }
+    },
+    {
+      "name": "Get product by id",
+      "request": { "method": "GET", "url": "{{baseUrl}}/products/{{productId}}" }
+    },
+    {
+      "name": "Create transaction (PENDING)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/transactions",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"quantity\": 1,\n  \"customer\": {\n    \"fullName\": \"Jane Doe\",\n    \"email\": \"jane@example.com\",\n    \"phone\": \"3001234567\",\n    \"legalIdType\": \"CC\",\n    \"legalIdNumber\": \"123456789\"\n  },\n  \"delivery\": {\n    \"addressLine1\": \"Cra 1 # 2-3\",\n    \"city\": \"Bogota\",\n    \"region\": \"Cundinamarca\",\n    \"country\": \"CO\",\n    \"postalCode\": \"110111\",\n    \"phone\": \"3001234567\"\n  }\n}"
+        }
+      }
+    },
+    {
+      "name": "Confirm payment",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/transactions/{{transactionId}}/confirm",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"cardToken\": \"tok_stagtest_xxx\",\n  \"installments\": 1,\n  \"acceptanceToken\": \"<from GET https://api-sandbox.co.uat.wompi.dev/v1/merchants/{public_key}>\",\n  \"acceptPersonalAuth\": \"<same response, presigned_personal_data_auth>\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Get transaction by id",
+      "request": { "method": "GET", "url": "{{baseUrl}}/transactions/{{transactionId}}" }
+    },
+    {
+      "name": "Get customer by id",
+      "request": { "method": "GET", "url": "{{baseUrl}}/customers/{{customerId}}" }
+    },
+    {
+      "name": "Get delivery by id",
+      "request": { "method": "GET", "url": "{{baseUrl}}/deliveries/{{deliveryId}}" }
+    }
+  ]
+}
