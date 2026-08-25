@@ -1,0 +1,14 @@
+node_modules/
+dist/
+build/
+.env
+.env.local
+.env.*.local
+coverage/
+*.log
+.DS_Store
+cdk.out/
+.vscode/
+
+# Do not publish the assessment brief itself to the public repo
+*.pdf
