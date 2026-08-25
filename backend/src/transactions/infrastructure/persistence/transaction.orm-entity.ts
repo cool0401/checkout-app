@@ -8,7 +8,7 @@ export class TransactionOrmEntity {
   @Column({ unique: true })
   reference: string;
 
-  @Column({ name: 'wompi_transaction_id', nullable: true })
+  @Column({ name: 'wompi_transaction_id', type: 'varchar', nullable: true })
   wompiTransactionId: string | null;
 
   @Column({ name: 'product_id', type: 'uuid' })
@@ -38,10 +38,10 @@ export class TransactionOrmEntity {
   @Column({ default: 'PENDING' })
   status: string;
 
-  @Column({ name: 'card_brand', nullable: true })
+  @Column({ name: 'card_brand', type: 'varchar', nullable: true })
   cardBrand: string | null;
 
-  @Column({ name: 'card_last_four', nullable: true })
+  @Column({ name: 'card_last_four', type: 'varchar', nullable: true })
   cardLastFour: string | null;
 
   @Column({ name: 'created_at', type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
