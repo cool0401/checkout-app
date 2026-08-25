@@ -1,0 +1,53 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: checkout
+    ports:
+      - "5432:5432"
+    volumes:
+      - checkout-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PORT: 3000
+      CORS_ORIGIN: http://localhost:5173
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: checkout
+      BASE_FEE_IN_CENTS: 500000
+      DELIVERY_FEE_IN_CENTS: 800000
+      CURRENCY: COP
+      WOMPI_API_URL: ${WOMPI_API_URL:-https://api-sandbox.co.uat.wompi.dev/v1}
+      WOMPI_PRIVATE_KEY: ${WOMPI_PRIVATE_KEY}
+      WOMPI_INTEGRITY_SECRET: ${WOMPI_INTEGRITY_SECRET}
+    ports:
+      - "3000:3000"
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: http://localhost:3000/api
+        VITE_WOMPI_PUBLIC_KEY: ${WOMPI_PUBLIC_KEY}
+        VITE_WOMPI_API_URL: ${WOMPI_API_URL:-https://api-sandbox.co.uat.wompi.dev/v1}
+    depends_on:
+      - backend
+    ports:
+      - "5173:80"
+
+volumes:
+  checkout-db-data:
