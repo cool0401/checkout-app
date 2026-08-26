@@ -79,6 +79,18 @@
 }
 
 .summary-backdrop__actions button:disabled {
-  opacity: 0.6;
   cursor: not-allowed;
+}
+
+/* The "Back" button is dark text on a light surface, so dimming it via
+   opacity still reads fine. The pay button is white text on a solid green —
+   opacity there blends both toward the white page background at once and
+   washes the text out to near-invisible, so it keeps full-strength colors
+   and only signals "disabled" via a darker shade + the cursor. */
+.summary-backdrop__actions button:disabled:not(.summary-backdrop__pay-button) {
+  opacity: 0.6;
+}
+
+.summary-backdrop__pay-button:disabled {
+  background: var(--color-primary-dark);
 }
