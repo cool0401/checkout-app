@@ -17,10 +17,7 @@ const STATUS_BY_CODE: Record<string, new (message: string) => HttpException> = {
   PAYMENT_GATEWAY_ERROR: BadGatewayException,
 };
 
-/**
- * Adapter-boundary helper: translates a use case's Result into either the
- * success value or the matching HttpException, keeping controllers thin.
- */
+// turns a use case's Result into either the value or the matching HttpException
 export function unwrapOrThrow<T, E extends DomainError>(result: Result<T, E>): T {
   if (result.isOk()) {
     return result.getValue();

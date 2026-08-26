@@ -50,10 +50,7 @@ export class Result<T, E> {
   }
 }
 
-/**
- * Railway-oriented chaining: runs `fn` only when `result` is Ok, short-circuiting
- * on the first Err so a use case reads as a straight pipeline of steps.
- */
+// runs fn only if result is Ok, otherwise passes the Err through unchanged
 export async function chain<T, U, E>(
   result: Result<T, E>,
   fn: (value: T) => Promise<Result<U, E>>,

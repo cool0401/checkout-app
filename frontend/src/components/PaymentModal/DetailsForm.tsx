@@ -42,10 +42,7 @@ export default function DetailsForm({ initialCard, onSubmitted }: Props) {
   const formRef = useRef<HTMLFormElement>(null);
   const brand = detectCardBrand(cardNumber);
 
-  // The form is long and "Continue to summary" sits at the bottom, so a failed
-  // validation can add error text above the user's current scroll position —
-  // without this, it looks like the button did nothing. Scroll the first error
-  // into view so the feedback is actually visible.
+  // scroll to the first error, otherwise it's easy to miss on a long form
   useEffect(() => {
     if (Object.keys(errors).length === 0) {
       return;

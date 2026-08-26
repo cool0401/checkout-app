@@ -13,9 +13,7 @@ export default function PaymentModal() {
 
   const canClose = step !== 'processing';
 
-  // Card details are intentionally never persisted (see persist.ts), so a page
-  // refresh while on the summary step loses them — send the user back to
-  // re-enter the card, keeping the customer/delivery info they already typed.
+  // card is never persisted, so a refresh on summary needs to bounce back for it
   useEffect(() => {
     if (step === 'summary' && !card) {
       dispatch(backToDetails());

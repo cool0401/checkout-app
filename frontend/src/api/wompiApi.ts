@@ -16,10 +16,7 @@ export interface CardTokenizationInput {
   cardHolder: string;
 }
 
-/**
- * Fetches the merchant's presigned acceptance tokens (terms of use + personal
- * data authorization) required by Wompi on every transaction. Public-key only.
- */
+// presigned acceptance + personal data auth tokens, required on every transaction
 export async function fetchAcceptanceTokens(): Promise<AcceptanceTokens> {
   const { data } = await wompiClient.get(`/merchants/${WOMPI_PUBLIC_KEY}`);
   return {
@@ -28,10 +25,7 @@ export async function fetchAcceptanceTokens(): Promise<AcceptanceTokens> {
   };
 }
 
-/**
- * Tokenizes the card directly against Wompi from the browser so the raw PAN/CVC
- * never touch our backend.
- */
+// tokenized client-side so the raw card number/cvc never hit our backend
 export async function tokenizeCard(card: CardTokenizationInput): Promise<string> {
   const { data } = await wompiClient.post(
     '/tokens/cards',

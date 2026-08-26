@@ -6,8 +6,7 @@ export const PRODUCT_REPOSITORY = Symbol('PRODUCT_REPOSITORY');
 export interface ProductRepositoryPort {
   findAll(): Promise<Product[]>;
   findById(id: string): Promise<Product | null>;
-  /** Persists the given product's current stock. */
   save(product: Product, manager?: EntityManager): Promise<void>;
-  /** Loads a product for update inside an existing DB transaction (row lock), or null if missing. */
+  /** row-locked lookup for use inside a DB transaction */
   findByIdForUpdate(id: string, manager: EntityManager): Promise<Product | null>;
 }
