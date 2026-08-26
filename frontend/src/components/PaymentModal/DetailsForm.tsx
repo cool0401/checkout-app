@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { FormEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { submitDetails } from '../../features/checkout/checkoutSlice';
@@ -39,7 +39,20 @@ export default function DetailsForm({ initialCard, onSubmitted }: Props) {
   const [installments, setInstallments] = useState(initialCard?.installments ?? 1);
 
   const [errors, setErrors] = useState<Errors>({});
+  const formRef = useRef<HTMLFormElement>(null);
   const brand = detectCardBrand(cardNumber);
+
+  // The form is long and "Continue to summary" sits at the bottom, so a failed
+  // validation can add error text above the user's current scroll position —
+  // without this, it looks like the button did nothing. Scroll the first error
+  // into view so the feedback is actually visible.
+  useEffect(() => {
+    if (Object.keys(errors).length === 0) {
+      return;
+    }
+    const firstError = formRef.current?.querySelector('.details-form__error');
+    firstError?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, [errors]);
 
   function validate(): Errors {
     const next: Errors = {};
@@ -86,7 +99,7 @@ export default function DetailsForm({ initialCard, onSubmitted }: Props) {
   }
 
   return (
-    <form className="details-form" onSubmit={handleSubmit} noValidate>
+    <form className="details-form" ref={formRef} onSubmit={handleSubmit} noValidate>
       <h2>Payment &amp; delivery details</h2>
 
       <fieldset>

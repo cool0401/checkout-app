@@ -46,6 +46,16 @@ describe('DetailsForm', () => {
     expect(screen.getByText('Only Visa and Mastercard are supported')).toBeInTheDocument();
   });
 
+  it('scrolls the first validation error into view so a failed submit is never silent', () => {
+    renderWithProviders(<DetailsForm initialCard={null} onSubmitted={jest.fn()} />);
+    const scrollIntoViewSpy = jest.fn();
+    Element.prototype.scrollIntoView = scrollIntoViewSpy;
+
+    fireEvent.click(screen.getByRole('button', { name: /continue to summary/i }));
+
+    expect(scrollIntoViewSpy).toHaveBeenCalledWith(expect.objectContaining({ block: 'center' }));
+  });
+
   it('detects the card brand as the user types', () => {
     renderWithProviders(<DetailsForm initialCard={null} onSubmitted={jest.fn()} />);
     fireEvent.change(screen.getByPlaceholderText('4242 4242 4242 4242'), { target: { value: '4242' } });
