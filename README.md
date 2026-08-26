@@ -176,9 +176,9 @@ Both suites enforce an 80% coverage threshold (`coverageThreshold` in each `jest
 | | Suites | Tests | Stmts | Branch | Funcs | Lines |
 |---|---|---|---|---|---|---|
 | Backend | 26 | 100 | 99.66% | 86.02% | 98.5% | 99.63% |
-| Frontend | 17 | 82 | 98.87% | 96.35% | 95.45% | 98.79% |
+| Frontend | 17 | 83 | 98.88% | 96.39% | 95.5% | 98.81% |
 
-The full payment flow (product page → card/delivery form → summary → pay → result, with stock decrementing) was also exercised end-to-end in a real browser against Wompi's sandbox, both via `npm run dev` and via the Docker images — no console errors.
+The full payment flow (product page → card/delivery form → summary → pay → result, with stock decrementing) was also exercised end-to-end in a real browser against Wompi's sandbox, both via `npm run dev` and via the Docker images — no console errors. This covered both outcomes (`4242 4242 4242 4242` → APPROVED, `4111 1111 1111 1111` → DECLINED with stock correctly untouched), the out-of-stock disabled state, and refresh-resilience on both the details/summary step and the result page. Every interactive button was also checked for sufficient contrast in its resting (non-hover) state at both a 375px and a 1440px viewport, after an earlier CSS specificity bug slipped past hover-masked automated screenshots.
 
 ## Security notes (OWASP alignment)
 
