@@ -49,7 +49,7 @@ export default function SummaryBackdrop({ card }: { card: CardInput }) {
       )}
 
       <div className="summary-backdrop__actions">
-        <button type="button" disabled={isProcessing} onClick={() => dispatch(backToDetails())}>
+        <button type="button" className="summary-backdrop__back-button" disabled={isProcessing} onClick={() => dispatch(backToDetails())}>
           Back
         </button>
         <button

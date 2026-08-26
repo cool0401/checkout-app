@@ -58,14 +58,32 @@
   gap: 0.75rem;
 }
 
+/* Shared layout only — background/border/color live entirely on the two
+   variant classes below so neither can win over the other by specificity
+   (a previous `.summary-backdrop__actions button { background: ... }` rule
+   silently beat `.summary-backdrop__pay-button { background: ... }` at rest,
+   since a class+element selector outranks a single class — the pay button
+   was white-on-white except while genuinely `:hover`/`:disabled`). */
 .summary-backdrop__actions button {
   padding: 0.85rem;
   border-radius: 10px;
   font-weight: 700;
   font-size: 1rem;
   min-height: 48px;
-  border: 1px solid var(--color-border);
+}
+
+.summary-backdrop__actions button:disabled {
+  cursor: not-allowed;
+}
+
+.summary-backdrop__back-button {
   background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+}
+
+.summary-backdrop__back-button:disabled {
+  opacity: 0.6;
 }
 
 .summary-backdrop__pay-button {
@@ -76,19 +94,6 @@
 
 .summary-backdrop__pay-button:hover:not(:disabled) {
   background: var(--color-primary-dark);
-}
-
-.summary-backdrop__actions button:disabled {
-  cursor: not-allowed;
-}
-
-/* The "Back" button is dark text on a light surface, so dimming it via
-   opacity still reads fine. The pay button is white text on a solid green —
-   opacity there blends both toward the white page background at once and
-   washes the text out to near-invisible, so it keeps full-strength colors
-   and only signals "disabled" via a darker shade + the cursor. */
-.summary-backdrop__actions button:disabled:not(.summary-backdrop__pay-button) {
-  opacity: 0.6;
 }
 
 .summary-backdrop__pay-button:disabled {
